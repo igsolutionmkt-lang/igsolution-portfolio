@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IG Solution — Sistemas de Crescimento Digital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #08090c;
+    --bg2: #0e1017;
+    --bg3: #141720;
+    --accent: #b3ff6e;
+    --accent2: #6ef0ff;
+    --text: #f0f0ee;
+    --muted: #7a7d8a;
+    --border: rgba(255,255,255,0.07);
+    --radius: 14px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.65;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.25rem 3rem;
+    background: rgba(8,9,12,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 1.15rem;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: var(--muted); font-size: 0.875rem;
+    text-decoration: none; letter-spacing: 0.02em;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--text); }
+  .nav-cta {
+    background: var(--accent); color: #08090c;
+    padding: .55rem 1.25rem; border-radius: 100px;
+    font-size: 0.875rem; font-weight: 500;
+    text-decoration: none; font-family: 'DM Sans', sans-serif;
+    transition: opacity .2s;
+  }
+  .nav-cta:hover { opacity: .85; }
+
+  /* ── SECTIONS ── */
+  section { padding: 6rem 3rem; max-width: 1200px; margin: 0 auto; }
+
+  /* ── HERO ── */
+  .hero-section {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding-top: 8rem; max-width: 100%;
+    position: relative; overflow: hidden;
+  }
+  .hero-inner { max-width: 1200px; margin: 0 auto; padding: 0 3rem; width: 100%; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: .5rem;
+    background: rgba(179,255,110,.08); border: 1px solid rgba(179,255,110,.2);
+    color: var(--accent); border-radius: 100px;
+    font-size: .75rem; font-weight: 500; letter-spacing: .08em;
+    padding: .35rem .9rem; text-transform: uppercase;
+    margin-bottom: 2rem;
+  }
+  .hero-badge::before {
+    content: ''; width: 6px; height: 6px;
+    background: var(--accent); border-radius: 50%;
+    animation: blink 2s infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.8rem, 6vw, 5.5rem);
+    font-weight: 800; line-height: 1.0;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.5rem;
+  }
+  h1 em { font-style: normal; color: var(--accent); }
+  .hero-sub {
+    font-size: 1.15rem; color: var(--muted); max-width: 520px;
+    line-height: 1.7; margin-bottom: 2.5rem; font-weight: 300;
+  }
+  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; }
+  .btn-primary {
+    background: var(--accent); color: #08090c;
+    padding: .8rem 1.8rem; border-radius: 100px;
+    font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: .95rem;
+    text-decoration: none; transition: opacity .2s, transform .2s;
+    display: inline-block;
+  }
+  .btn-primary:hover { opacity: .88; transform: translateY(-1px); }
+  .btn-ghost {
+    color: var(--muted); padding: .8rem 1.8rem; border-radius: 100px;
+    font-family: 'DM Sans', sans-serif; font-size: .95rem;
+    border: 1px solid var(--border); text-decoration: none;
+    transition: color .2s, border-color .2s;
+  }
+  .btn-ghost:hover { color: var(--text); border-color: rgba(255,255,255,.18); }
+
+  .hero-stats {
+    display: flex; gap: 3rem; margin-top: 5rem;
+    padding-top: 3rem; border-top: 1px solid var(--border);
+  }
+  .stat-item { display: flex; flex-direction: column; gap: .2rem; }
+  .stat-num {
+    font-family: 'Syne', sans-serif; font-size: 2rem;
+    font-weight: 800; color: var(--text);
+  }
+  .stat-num span { color: var(--accent); }
+  .stat-label { font-size: .8rem; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
+
+  /* bg grid */
+  .hero-grid {
+    position: fixed; inset: 0; pointer-events: none; z-index: -1;
+    background-image:
+      linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .hero-glow {
+    position: fixed; top: -20%; right: -10%; width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(179,255,110,.06) 0%, transparent 70%);
+    pointer-events: none; z-index: -1;
+  }
+
+  /* ── LABEL ── */
+  .section-label {
+    display: inline-flex; align-items: center; gap: .5rem;
+    font-size: .7rem; font-weight: 500; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 1.25rem;
+  }
+  .section-label::before {
+    content: ''; width: 20px; height: 1px; background: var(--accent);
+  }
+
+  h2 {
+    font-family: 'Syne', sans-serif; font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    font-weight: 800; letter-spacing: -0.025em; line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+  h2 em { font-style: normal; color: var(--accent); }
+
+  /* ── ABOUT ── */
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+  .about-text p { color: var(--muted); margin-bottom: 1.2rem; font-weight: 300; }
+  .about-text p strong { color: var(--text); font-weight: 500; }
+  .about-pillars { display: flex; flex-direction: column; gap: .75rem; margin-top: 2rem; }
+  .pillar {
+    display: flex; align-items: center; gap: 1rem;
+    padding: .9rem 1.2rem;
+    background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius);
+    transition: border-color .2s;
+  }
+  .pillar:hover { border-color: rgba(179,255,110,.2); }
+  .pillar-icon {
+    width: 36px; height: 36px; border-radius: 8px;
+    background: rgba(179,255,110,.08); display: flex;
+    align-items: center; justify-content: center;
+    font-size: 16px; flex-shrink: 0;
+  }
+  .pillar-text { font-size: .88rem; font-weight: 500; }
+  .pillar-sub { font-size: .78rem; color: var(--muted); }
+
+  .about-visual {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 20px; padding: 2.5rem;
+    position: relative; overflow: hidden;
+  }
+  .about-visual::before {
+    content: ''; position: absolute; top: 0; right: 0;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(179,255,110,.08) 0%, transparent 70%);
+  }
+  .stack-item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: .9rem 0; border-bottom: 1px solid var(--border);
+  }
+  .stack-item:last-child { border-bottom: none; }
+  .stack-name { font-size: .88rem; font-weight: 500; }
+  .stack-bar-wrap { width: 120px; height: 4px; background: rgba(255,255,255,.06); border-radius: 2px; }
+  .stack-bar { height: 100%; border-radius: 2px; background: var(--accent); }
+  .stack-pct { font-size: .78rem; color: var(--muted); min-width: 32px; text-align: right; }
+
+  /* ── SERVICES ── */
+  .services-intro { max-width: 600px; margin-bottom: 4rem; }
+  .services-intro p { color: var(--muted); font-weight: 300; margin-top: .75rem; }
+
+  .services-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+
+  .service-card {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 20px; padding: 2.2rem;
+    position: relative; overflow: hidden;
+    transition: border-color .3s, transform .3s;
+    text-decoration: none; color: inherit; display: block;
+  }
+  .service-card:hover { border-color: rgba(179,255,110,.25); transform: translateY(-3px); }
+  .service-card.featured { border-color: rgba(179,255,110,.2); grid-column: span 2; }
+  .service-card.featured-cyan { border-color: rgba(110,240,255,.15); }
+
+  .card-glow-green {
+    position: absolute; top: -60px; right: -60px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(179,255,110,.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .card-glow-cyan {
+    position: absolute; top: -60px; right: -60px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(110,240,255,.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .card-tag {
+    display: inline-block; padding: .3rem .8rem; border-radius: 100px;
+    font-size: .7rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+  .tag-live { background: rgba(179,255,110,.1); color: var(--accent); }
+  .tag-building { background: rgba(110,240,255,.08); color: var(--accent2); }
+  .tag-core { background: rgba(255,255,255,.06); color: var(--muted); }
+
+  .card-icon {
+    font-size: 2rem; margin-bottom: 1rem; display: block;
+  }
+  .service-card h3 {
+    font-family: 'Syne', sans-serif; font-size: 1.35rem;
+    font-weight: 800; letter-spacing: -0.02em;
+    margin-bottom: .6rem;
+  }
+  .service-card .card-desc { color: var(--muted); font-size: .9rem; font-weight: 300; margin-bottom: 1.5rem; line-height: 1.6; }
+
+  .card-features { list-style: none; display: flex; flex-direction: column; gap: .5rem; }
+  .card-features li {
+    font-size: .85rem; color: var(--muted); display: flex; align-items: center; gap: .6rem;
+  }
+  .card-features li::before {
+    content: ''; width: 5px; height: 5px; border-radius: 50%;
+    background: var(--accent); flex-shrink: 0;
+  }
+  .card-features.cyan li::before { background: var(--accent2); }
+
+  .card-price {
+    margin-top: 1.75rem; padding-top: 1.25rem; border-top: 1px solid var(--border);
+    display: flex; align-items: baseline; gap: .4rem;
+  }
+  .price-num { font-family: 'Syne', sans-serif; font-size: 1.6rem; font-weight: 800; color: var(--accent); }
+  .price-period { font-size: .8rem; color: var(--muted); }
+
+  .featured-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; align-items: start; }
+  .featured-modules { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem; }
+  .module-chip {
+    padding: .75rem 1rem; border-radius: 10px;
+    background: rgba(255,255,255,.03); border: 1px solid var(--border);
+    font-size: .8rem; font-weight: 500;
+  }
+  .module-chip span { display: block; font-size: .72rem; color: var(--muted); margin-top: .2rem; font-weight: 300; }
+
+  /* ── PROCESS ── */
+  .process-intro { max-width: 560px; margin-bottom: 4rem; }
+  .process-intro p { color: var(--muted); font-weight: 300; margin-top: .75rem; }
+
+  .process-steps { display: flex; flex-direction: column; gap: 0; }
+  .process-step {
+    display: grid; grid-template-columns: 80px 1fr;
+    gap: 0 2rem; padding: 2rem 0;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+  .step-num {
+    font-family: 'Syne', sans-serif; font-size: 3.5rem; font-weight: 800;
+    color: rgba(255,255,255,.06); line-height: 1; align-self: center;
+  }
+  .step-content h4 {
+    font-family: 'Syne', sans-serif; font-size: 1.05rem;
+    font-weight: 700; margin-bottom: .35rem;
+  }
+  .step-content p { color: var(--muted); font-size: .88rem; font-weight: 300; }
+  .step-tools {
+    display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .75rem;
+  }
+  .tool-chip {
+    background: var(--bg3); border: 1px solid var(--border);
+    padding: .2rem .65rem; border-radius: 100px;
+    font-size: .72rem; color: var(--muted);
+  }
+
+  /* ── CONTACT ── */
+  .contact-section { text-align: center; }
+  .contact-section h2 { margin-bottom: .75rem; }
+  .contact-section p { color: var(--muted); max-width: 480px; margin: 0 auto 2.5rem; font-weight: 300; }
+  .contact-grid { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  .contact-link {
+    display: flex; align-items: center; gap: .6rem;
+    padding: .8rem 1.5rem; border-radius: 100px;
+    border: 1px solid var(--border); text-decoration: none;
+    color: var(--muted); font-size: .88rem;
+    transition: color .2s, border-color .2s;
+  }
+  .contact-link:hover { color: var(--text); border-color: rgba(255,255,255,.18); }
+  .contact-link.primary {
+    background: var(--accent); color: #08090c;
+    border-color: transparent; font-weight: 500;
+  }
+  .contact-link.primary:hover { opacity: .88; }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem 3rem;
+    display: flex; justify-content: space-between; align-items: center;
+    max-width: 100%; color: var(--muted); font-size: .8rem;
+  }
+  footer a { color: var(--muted); text-decoration: none; }
+  footer span { color: var(--accent); }
+
+  /* ── REVEAL ── */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+  .reveal-delay-1 { transition-delay: .1s; }
+  .reveal-delay-2 { transition-delay: .2s; }
+  .reveal-delay-3 { transition-delay: .3s; }
+  .reveal-delay-4 { transition-delay: .4s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    section { padding: 4rem 1.5rem; }
+    .hero-inner { padding: 0 1.5rem; }
+    h1 { font-size: 2.4rem; }
+    .hero-stats { gap: 1.5rem; flex-wrap: wrap; }
+    .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .services-grid { grid-template-columns: 1fr; }
+    .service-card.featured { grid-column: span 1; }
+    .featured-inner { grid-template-columns: 1fr; }
+    .featured-modules { grid-template-columns: 1fr 1fr; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero-grid"></div>
+<div class="hero-glow"></div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">IG<span>.</span>Solution</a>
+  <ul class="nav-links">
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#servicos">Serviços</a></li>
+    <li><a href="#processo">Processo</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+  <a href="#contacto" class="nav-cta">Falar comigo</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero-section">
+  <div class="hero-inner">
+    <div class="hero-badge">Mercado Ibérico · Portugal &amp; Espanha</div>
+    <h1>Sistemas que geram<br>clientes. <em>Todos os dias.</em></h1>
+    <p class="hero-sub">Construímos plataformas digitais e estratégias de aquisição que funcionam em piloto automático — para negócios locais, desportivos e digitais no mercado ibérico.</p>
+    <div class="hero-actions">
+      <a href="#servicos" class="btn-primary">Ver os serviços</a>
+      <a href="#processo" class="btn-ghost">Como trabalhamos</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-num">2<span>+</span></div>
+        <div class="stat-label">Produtos ativos</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">€<span>297</span></div>
+        <div class="stat-label">Ticket recorrente máx.</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">PT<span>+</span>ES</div>
+        <div class="stat-label">Mercados alvo</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">100<span>%</span></div>
+        <div class="stat-label">Foco em resultados</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SOBRE -->
+<section id="sobre">
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <div class="section-label">Sobre</div>
+      <h2>Crescimento digital <em>sem ruído.</em></h2>
+      <p>A IG Solution é uma consultora de crescimento e automação digital com foco no mercado ibérico. <strong>Não vendemos serviços genéricos</strong> — construímos sistemas que geram leads, convertem clientes e escalam sem depender de esforço manual constante.</p>
+      <p>Cada produto e serviço que desenvolvemos nasce de uma pergunta directa: <strong>como é que isto gera clientes de forma previsível?</strong></p>
+      <p>Do SEO local para restaurantes de Lisboa ao primeiro marketplace de sponsorship para futebolistas semi-profissionais em Portugal e Espanha — tudo com automação no centro.</p>
+      <div class="about-pillars">
+        <div class="pillar">
+          <div class="pillar-icon">⚡</div>
+          <div>
+            <div class="pillar-text">Automação primeiro</div>
+            <div class="pillar-sub">Tudo que é repetível, automatizamos</div>
+          </div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon">📈</div>
+          <div>
+            <div class="pillar-text">Crescimento previsível</div>
+            <div class="pillar-sub">Sistemas, não sorte</div>
+          </div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon">🎯</div>
+          <div>
+            <div class="pillar-text">Mercado ibérico nativo</div>
+            <div class="pillar-sub">Portugal e Espanha no ADN</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="about-visual reveal reveal-delay-2">
+      <div style="font-family:'Syne',sans-serif;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:1.5rem;">Stack de trabalho</div>
+      <div class="stack-item">
+        <span class="stack-name">Lovable / React</span>
+        <div class="stack-bar-wrap"><div class="stack-bar" style="width:90%"></div></div>
+        <span class="stack-pct">90%</span>
+      </div>
+      <div class="stack-item">
+        <span class="stack-name">Supabase</span>
+        <div class="stack-bar-wrap"><div class="stack-bar" style="width:85%"></div></div>
+        <span class="stack-pct">85%</span>
+      </div>
+      <div class="stack-item">
+        <span class="stack-name">Make / n8n</span>
+        <div class="stack-bar-wrap"><div class="stack-bar" style="width:80%"></div></div>
+        <span class="stack-pct">80%</span>
+      </div>
+      <div class="stack-item">
+        <span class="stack-name">SEO Local</span>
+        <div class="stack-bar-wrap"><div class="stack-bar" style="width:88%"></div></div>
+        <span class="stack-pct">88%</span>
+      </div>
+      <div class="stack-item">
+        <span class="stack-name">WhatsApp API</span>
+        <div class="stack-bar-wrap"><div class="stack-bar" style="width:75%"></div></div>
+        <span class="stack-pct">75%</span>
+      </div>
+      <div class="stack-item">
+        <span class="stack-name">Google Ads / Meta</span>
+        <div class="stack-bar-wrap"><div class="stack-bar" style="width:82%"></div></div>
+        <span class="stack-pct">82%</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVIÇOS -->
+<section id="servicos" style="padding-top:2rem;">
+  <div class="services-intro reveal">
+    <div class="section-label">Serviços &amp; Produtos</div>
+    <h2>O que <em>construímos</em> e entregamos</h2>
+    <p>Dois vetores de crescimento: serviços recorrentes para negócios locais e uma plataforma própria em construção para o mercado desportivo ibérico.</p>
+  </div>
+
+  <div class="services-grid">
+
+    <!-- PRESENÇA DIGITAL LOCAL — destaque -->
+    <div class="service-card featured reveal">
+      <div class="card-glow-green"></div>
+      <div class="featured-inner">
+        <div>
+          <span class="card-tag tag-live">● Ativo</span>
+          <span class="card-icon">📍</span>
+          <h3>Presença Digital Local</h3>
+          <p class="card-desc">Pacotes mensais de marketing digital para pequenos negócios locais portugueses — restaurantes, lojas e oficinas. Visibilidade no Google, mais avaliações e reputação gerida em piloto automático.</p>
+          <div class="card-price">
+            <span class="price-num">€197</span>
+            <span class="price-period">– €297 / mês</span>
+          </div>
+        </div>
+        <div>
+          <div style="font-family:'Syne',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem;">O que está incluído</div>
+          <div class="featured-modules">
+            <div class="module-chip">
+              SEO Local
+              <span>Posicionamento Google Maps &amp; Search</span>
+            </div>
+            <div class="module-chip">
+              Google Business
+              <span>Perfil otimizado e atualizado</span>
+            </div>
+            <div class="module-chip">
+              Gestão de Reputação
+              <span>Monitorização e resposta a reviews</span>
+            </div>
+            <div class="module-chip">
+              Automação de Reviews
+              <span>Captação automática pós-visita</span>
+            </div>
+          </div>
+          <div style="margin-top:1.25rem;font-size:.8rem;color:var(--muted);font-weight:300;">
+            Mercado-alvo: restaurantes, lojas de rua e oficinas em Portugal. Excluímos clínicas por questões de compliance.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FIELDBRAND -->
+    <div class="service-card featured-cyan reveal reveal-delay-1">
+      <div class="card-glow-cyan"></div>
+      <span class="card-tag tag-building">⬡ Em desenvolvimento</span>
+      <span class="card-icon">⚽</span>
+      <h3>FieldBrand</h3>
+      <p class="card-desc">O primeiro marketplace ibérico de sponsorship para futebolistas semi-profissionais. Conectamos jogadores com marcas locais que querem visibilidade autêntica — fora dos canais tradicionais.</p>
+      <ul class="card-features cyan">
+        <li>Perfis de atletas com métricas de alcance</li>
+        <li>Onboarding via redes sociais (Instagram, TikTok, YouTube)</li>
+        <li>Sistema de comissão de 15% em sponsorships fechados</li>
+        <li>Planos para clubes (até €497/mês) e marcas (até €999/mês)</li>
+        <li>Plataforma multilíngue PT / ES / EN</li>
+      </ul>
+      <div class="card-price">
+        <span class="price-num" style="color:var(--accent2);">€29</span>
+        <span class="price-period">– €79 / mês por atleta · em validação</span>
+      </div>
+    </div>
+
+    <!-- SERVIÇOS CORE -->
+    <div class="service-card reveal reveal-delay-2">
+      <span class="card-tag tag-core">Base</span>
+      <span class="card-icon">🤖</span>
+      <h3>Automação &amp; CRM</h3>
+      <p class="card-desc">Fluxos automáticos de captação, qualificação e follow-up de leads. Desde o primeiro contacto até ao fecho — sem toques manuais.</p>
+      <ul class="card-features">
+        <li>Captação automática de leads (WhatsApp, email, web)</li>
+        <li>Sequências de follow-up multi-canal</li>
+        <li>Integração Make / n8n + CRM</li>
+        <li>Agendamento automático</li>
+      </ul>
+    </div>
+
+    <div class="service-card reveal reveal-delay-3">
+      <span class="card-tag tag-core">Base</span>
+      <span class="card-icon">🚀</span>
+      <h3>Aquisição Paga &amp; Funis</h3>
+      <p class="card-desc">Campanhas de performance com funis de conversão desenhados para gerar clientes — não likes. Google Ads, Meta e landing pages de alto impacto.</p>
+      <ul class="card-features">
+        <li>Campanhas Google Ads e Meta Ads</li>
+        <li>Landing pages orientadas à conversão</li>
+        <li>A/B testing e otimização contínua</li>
+        <li>Relatórios de ROI em tempo real</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROCESSO -->
+<section id="processo">
+  <div class="process-intro reveal">
+    <div class="section-label">Processo</div>
+    <h2>Como <em>construímos</em> sistemas de crescimento</h2>
+    <p>Quatro fases que transformam um negócio sem sistema num motor previsível de aquisição de clientes.</p>
+  </div>
+
+  <div class="process-steps">
+    <div class="process-step reveal">
+      <div class="step-num">01</div>
+      <div class="step-content">
+        <h4>Diagnóstico de presença e fugas</h4>
+        <p>Auditamos o estado actual da presença digital, identificamos onde os leads estão a escapar e definimos o ponto de maior alavancagem para começar.</p>
+        <div class="step-tools">
+          <span class="tool-chip">Google Business</span>
+          <span class="tool-chip">Search Console</span>
+          <span class="tool-chip">SEMrush</span>
+        </div>
+      </div>
+    </div>
+    <div class="process-step reveal reveal-delay-1">
+      <div class="step-num">02</div>
+      <div class="step-content">
+        <h4>Construção da infraestrutura de captação</h4>
+        <p>Montamos os activos digitais — perfis, landing pages, formulários e integrações — que vão captar e qualificar leads automaticamente.</p>
+        <div class="step-tools">
+          <span class="tool-chip">Lovable</span>
+          <span class="tool-chip">Supabase</span>
+          <span class="tool-chip">WhatsApp API</span>
+          <span class="tool-chip">Make</span>
+        </div>
+      </div>
+    </div>
+    <div class="process-step reveal reveal-delay-2">
+      <div class="step-num">03</div>
+      <div class="step-content">
+        <h4>Automação do follow-up e conversão</h4>
+        <p>Activamos sequências automáticas de nutrição e follow-up que transformam contactos em clientes pagantes — sem intervenção manual.</p>
+        <div class="step-tools">
+          <span class="tool-chip">n8n</span>
+          <span class="tool-chip">Make</span>
+          <span class="tool-chip">CRM</span>
+          <span class="tool-chip">Email + SMS</span>
+        </div>
+      </div>
+    </div>
+    <div class="process-step reveal reveal-delay-3">
+      <div class="step-num">04</div>
+      <div class="step-content">
+        <h4>Monitorização e optimização contínua</h4>
+        <p>Dashboards de performance em tempo real. Optimizamos o que funciona, eliminamos o que não funciona, e escalamos o que converte.</p>
+        <div class="step-tools">
+          <span class="tool-chip">GA4</span>
+          <span class="tool-chip">Looker Studio</span>
+          <span class="tool-chip">Hotjar</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section id="contacto" class="contact-section">
+  <div class="reveal">
+    <div class="section-label" style="justify-content:center;">Contacto</div>
+    <h2>Pronto para <em>construir</em> juntos?</h2>
+    <p>Se tem um negócio local em Portugal, um clube de futebol ou uma marca que quer crescer no mercado ibérico — vamos conversar.</p>
+    <div class="contact-grid">
+      <a href="mailto:hello@igsolution.pt" class="contact-link primary">Enviar email</a>
+      <a href="https://instagram.com/igsolutionmkt" target="_blank" class="contact-link">Instagram</a>
+      <a href="https://operation-automagic.lovable.app" target="_blank" class="contact-link">Presença Digital Local</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>© 2026 <span>IG Solution</span> · Mercado Ibérico</div>
+  <div>Porto, Portugal · igsolutionmkt</div>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
